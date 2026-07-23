@@ -45,6 +45,15 @@ select:focus,input:focus{outline:2px solid var(--red);outline-offset:-2px}
 .pp{font-family:'Inter',sans-serif}.pp b{font-family:'Fraunces',serif;font-size:16px;font-weight:600}
 .pp{font-size:12.5px;line-height:1.55}.pp a{color:var(--red);font-weight:600}
 .tag{display:inline-block;font-size:10px;padding:2px 8px;border:1px solid var(--line);margin:4px 4px 0 0;color:var(--ink);background:#fff}
+@media (max-width:760px){
+  html,body{height:auto;overflow-x:hidden}
+  #wrap{flex-direction:column;height:auto;min-height:100vh;width:100%}
+  #map{order:-1;width:100%;height:56vh;min-height:340px;flex:none}
+  #side{width:100%;flex:none;overflow:visible;border-right:none;border-top:1.5px solid var(--ink)}
+  #side-inner{padding:20px 18px 28px;max-width:560px;margin:0 auto}
+  .brand{font-size:24px}
+  .stat b{font-size:22px}
+}
 .price{color:var(--red);font-weight:700}
 .leaflet-popup-content-wrapper{border-radius:0;border:1.5px solid var(--ink)}
 </style></head><body><div id=wrap>
@@ -89,7 +98,7 @@ const DATA=[{"v":"AIRE Ancient Baths Chicago","loc":"","ch":"Independent","ty":"
 const COL={'Traditional / Nordic':'#C8102E','Bathhouse / multi':'#9A6A3A','Infrared':'#BCB1A4'};
 const map=L.map('map',{scrollWheelZoom:true}).setView([39.5,-96],4.4);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© OpenStreetMap © CARTO · Saunophile',subdomains:'abcd',maxZoom:19}).addTo(map);
-const cluster=L.markerClusterGroup({maxClusterRadius:40,spiderfyOnMaxZoom:true});
+const cluster=L.markerClusterGroup({maxClusterRadius:40,spiderfyOnMaxZoom:true,iconCreateFunction:function(c){var n=c.getChildCount();var s=n<10?36:(n<25?46:56);var bg=n<10?'#E3B676':(n<25?'#C4611B':'#C8102E');var fg=n<10?'#3A2A17':'#FAF5EE';return L.divIcon({html:'<div style="background:'+bg+';color:'+fg+';width:'+s+'px;height:'+s+'px;line-height:'+s+'px;border-radius:50%;text-align:center;font-weight:700;font-family:Inter,sans-serif;border:2px solid #FAF5EE;box-shadow:0 1px 5px rgba(0,0,0,.3)">'+n+'</div>',className:'saunocluster',iconSize:[s,s]});}});
 function mk(d){
   const c=COL[d.mo]||'#BCB1A4';
   const mr=L.circleMarker([d.lat,d.lng],{radius:d.st==='Open'?6:8,color:'#1A0A0A',weight:d.st==='Open'?1:1.6,fillColor:c,fillOpacity:.92});
